@@ -5,22 +5,25 @@ function AddUser() {
     const [name, setName] = useState();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
+    
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         const userData = { name, email, password };
+        console.log(userData);
+
         try {
-            const response = await fatch('http://localhost:5000/insert/user', {
+            const response = await fetch('http://localhost:5000/insert/user', {
                 method: "POST",
-                header: {
+                headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(userData),
 
             });
-            if(response){
-                console.log(response);    
+            if (response) {
+                console.log(response);
             }
         }
         catch (error) {
@@ -45,6 +48,7 @@ function AddUser() {
                     <label className="form-label">Password</label>
                     <input type="password" className="form-control" name="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                 </div>
+                
 
                 {/* Submit Button */}
                 <button type="submit" className="btn btn-primary">
