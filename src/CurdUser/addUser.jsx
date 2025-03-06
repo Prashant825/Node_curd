@@ -1,11 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function AddUser() {
 
     const [name, setName] = useState();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    
+    const navigate = useNavigate();
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -14,6 +16,7 @@ function AddUser() {
         console.log(userData);
 
         try {
+
             const response = await fetch('http://localhost:5000/insert/user', {
                 method: "POST",
                 headers: {
@@ -22,9 +25,20 @@ function AddUser() {
                 body: JSON.stringify(userData),
 
             });
-            if (response) {
-                console.log(response);
+            const data = await response.json();
+            console.log(response);
+            
+
+            if (response.ok) {
+                console.log(data.message);
+                setName('');
+                setEmail('');
+                setPassword('');
+                navigate('/showuser');
+            }else{
+                console.log(data.message); 
             }
+
         }
         catch (error) {
             console.log('Error: ', error);
@@ -49,13 +63,12 @@ function AddUser() {
                     <input type="password" className="form-control" name="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                 </div>
                 
-
                 {/* Submit Button */}
                 <button type="submit" className="btn btn-primary">
                     Submit
                 </button>
             </form>
-            <p>name: {name}</p>
+
         </div>
     )
 }
