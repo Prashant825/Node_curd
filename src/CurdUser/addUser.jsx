@@ -32,7 +32,7 @@ function AddUser() {
             if (response.ok) {
                 console.log(data.message);
                 setName('');
-                setEmail('');
+                setEmail(''); 
                 setPassword('');
                 navigate('/showuser');
             }else{
